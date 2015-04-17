@@ -1,21 +1,8 @@
 <%
 require 'cucumber_in_groups'
 
-rerun  = File.file?('rerun.txt') ? IO.read('rerun.txt') : ""
-format = ENV['CUCUMBER_FORMAT'] || 'pretty'
-
-# option lists for the `cucumber` command
-rerun_opts = rerun.to_s.strip.empty? ? "--format #{format} features" : "--format #{format} #{rerun}"
-std_opts   = "--format #{format} --strict --tags ~@wip --tags ~@screenshots"
-screenshot_opts  = "--require features --format pretty"
+common = "--tags ~@wip --strict"
 %>
 
 # 'normal' test runs
-default: <%= std_opts %> -r <%= grouped_features %>
-wip: -r features --tags @wip:3 --wip <%= grouped_features %>
-rerun: <%= rerun_opts %> --format rerun --out rerun.txt --strict --tags ~@wip --tags ~@screenshots
-
-# screenshot feature
-ref_screens: "<%= screenshot_opts %> --tags @reference-screenshots"
-cmp_screens: "<%= screenshot_opts %> --tags @comparison-screenshots"
-all_screens: "<%= screenshot_opts %> --tags @screenshots"
+default: <%= common %> <%= grouped_features %>
