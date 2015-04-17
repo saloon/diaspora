@@ -1,4 +1,6 @@
 <%
+require 'cucumber_in_groups'
+
 rerun  = File.file?('rerun.txt') ? IO.read('rerun.txt') : ""
 format = ENV['CUCUMBER_FORMAT'] || 'pretty'
 
@@ -9,8 +11,8 @@ screenshot_opts  = "--require features --format pretty"
 %>
 
 # 'normal' test runs
-default: <%= std_opts %> -r features
-wip: -r features --tags @wip:3 --wip features
+default: <%= std_opts %> -r <%= grouped_features %>
+wip: -r features --tags @wip:3 --wip <%= grouped_features %>
 rerun: <%= rerun_opts %> --format rerun --out rerun.txt --strict --tags ~@wip --tags ~@screenshots
 
 # screenshot feature

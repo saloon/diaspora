@@ -203,7 +203,7 @@ group :test do
   gem 'timecop',            '0.7.1'
   gem 'webmock',            '1.18.0', :require => false
 
-  gem 'parallel_tests'
+  gem 'cucumber_in_groups', require: false
 end
 
 
