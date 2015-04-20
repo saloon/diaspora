@@ -1,0 +1,30 @@
+machine:
+  ruby:
+    version:
+      "2.1"
+
+  environment:
+    DB: all
+
+database:
+  override:
+    - RAILS_ENV=test cp config/database.yml.example config/database.yml
+    - RAILS_ENV=test sed -i 's/*common/*postgres_travis/' config/database.yml
+    - RAILS_ENV=test bundle exec rake db:create
+    - RAILS_ENV=test bundle exec rake db:migrate
+    - RAILS_ENV=test bundle exec rake db:test:prepare
+    - RAILS_ENV=test bundle exec rake assets:precompile
+    - RAILS_ENV=test bundle exec rake tests:generate_fixtures
+
+test:
+  post:
+    - bundle exec rake spec || true
+    - bundle exec rake jasmine:ci || true
+    - GROUP=1of8 bundle exec rake rake:cucumber || true
+    - GROUP=2of8 bundle exec rake rake:cucumber || true
+    - GROUP=3of8 bundle exec rake rake:cucumber || true
+    - GROUP=4of8 bundle exec rake rake:cucumber || true
+    - GROUP=5of8 bundle exec rake rake:cucumber || true
+    - GROUP=6of8 bundle exec rake rake:cucumber || true
+    - GROUP=7of8 bundle exec rake rake:cucumber || true
+    - GROUP=8of8 bundle exec rake rake:cucumber || true
