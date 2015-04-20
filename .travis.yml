@@ -17,3 +17,4 @@ before_script:
 script: "(bundle exec rake spec || true) && (bundle exec rake jasmine:ci || true) && (GROUP=1of8 bundle exec rake rake:cucumber || true) && (GROUP=2of8 bundle exec rake rake:cucumber || true) && (GROUP=3of8 bundle exec rake rake:cucumber || true) && (GROUP=4of8 bundle exec rake rake:cucumber || true) && (GROUP=5of8 bundle exec rake rake:cucumber || true) && (GROUP=6of8 bundle exec rake rake:cucumber || true) && (GROUP=7of8 bundle exec rake rake:cucumber || true) && (GROUP=8of8 bundle exec rake rake:cucumber || true)"
 addons:
   firefox: "26.0"
+cache: bundler
