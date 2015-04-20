@@ -1,27 +1,19 @@
-branches:
-  only:
-    - 'master'
-    - 'develop'
-
 language: ruby
 rvm:
-  - 2.0.0
-  - 1.9.3
-
+  - 2.1
 env:
-  - DB=postgres BUILD_TYPE=other
-  - DB=mysql BUILD_TYPE=other
-  - DB=postgres BUILD_TYPE=cucumber
-  - DB=mysql BUILD_TYPE=cucumber
-
-
+  - DB=all
 bundler_args: "--without development production heroku"
-script: "./script/ci/build.sh"
-
+before_script:
+  - RAILS_ENV=test cp config/database.yml.example config/database.yml
+  - RAILS_ENV=test sed -i 's/*common/*postgres_travis/' config/database.yml
+  - RAILS_ENV=test bundle exec rake db:create
+  - RAILS_ENV=test bundle exec rake db:migrate
+  - RAILS_ENV=test bundle exec rake db:test:prepare
+  - RAILS_ENV=test bundle exec rake assets:precompile
+  - RAILS_ENV=test bundle exec rake tests:generate_fixtures
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+script: "(bundle exec rake spec || true) && (bundle exec rake jasmine:ci || true) && (GROUP=1of8 bundle exec rake rake:cucumber || true) && (GROUP=2of8 bundle exec rake rake:cucumber || true) && (GROUP=3of8 bundle exec rake rake:cucumber || true) && (GROUP=4of8 bundle exec rake rake:cucumber || true) && (GROUP=5of8 bundle exec rake rake:cucumber || true) && (GROUP=6of8 bundle exec rake rake:cucumber || true) && (GROUP=7of8 bundle exec rake rake:cucumber || true) && (GROUP=8of8 bundle exec rake rake:cucumber || true)"
 addons:
   firefox: "26.0"
-
-notifications:
-  irc:
-    channels:
-      - "irc.freenode.org:6667#diaspora-dev"

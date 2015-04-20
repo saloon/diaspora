@@ -195,14 +195,13 @@ group :test do
 
   gem 'capybara',           '2.2.1'
   gem 'database_cleaner',   '1.3.0'
-  gem 'selenium-webdriver', '2.45.0'
+  gem 'selenium-webdriver', '2.42.0'
 
   # General helpers
 
   gem 'factory_girl_rails', '4.4.1'
   gem 'timecop',            '0.7.1'
   gem 'webmock',            '1.18.0', :require => false
-
   gem 'cucumber_in_groups', require: false
 end
 
