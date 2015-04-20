@@ -2,7 +2,12 @@ language: ruby
 rvm:
   - 2.1
 env:
-  - DB=all
+  global:
+    - DB=all
+  matrix:
+    - TRAVIS_NODE_INDEX=0
+    - TRAVIS_NODE_INDEX=1
+
 bundler_args: "--without development production heroku"
 before_script:
   - RAILS_ENV=test cp config/database.yml.example config/database.yml
@@ -14,7 +19,7 @@ before_script:
   - RAILS_ENV=test bundle exec rake tests:generate_fixtures
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-script: "(bundle exec rake spec || true) && (bundle exec rake jasmine:ci || true) && (GROUP=1of8 bundle exec rake rake:cucumber || true) && (GROUP=2of8 bundle exec rake rake:cucumber || true) && (GROUP=3of8 bundle exec rake rake:cucumber || true) && (GROUP=4of8 bundle exec rake rake:cucumber || true) && (GROUP=5of8 bundle exec rake rake:cucumber || true) && (GROUP=6of8 bundle exec rake rake:cucumber || true) && (GROUP=7of8 bundle exec rake rake:cucumber || true) && (GROUP=8of8 bundle exec rake rake:cucumber || true)"
 addons:
   firefox: "26.0"
+script: "case $TRAVIS_NODE_INDEX in 0) (bundle exec rake spec || true) &&  (bundle exec rake jasmine:ci || true) && (GROUP=1of4 bundle exec rake rake:cucumber || true) && (GROUP=2of4 bundle exec rake rake:cucumber || true) ;; 1) (GROUP=4of4 bundle exec rake rake:cucumber || true) && (GROUP=3of4 bundle exec rake rake:cucumber || true) ;; esac"
 cache: bundler
