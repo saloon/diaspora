@@ -9,9 +9,19 @@ prefork = proc do
   require 'capybara/session'
   #require 'cucumber/rails/capybara_javascript_emulation' # Lets you click links with onclick javascript handlers without using @culerity or @javascript
 
-  # Ensure we know the appservers port
-  Capybara.server_port = 9887
+  def find_available_port
+    server = TCPServer.new('127.0.0.1', 0)
+    server.addr[1]
+  ensure
+    server.close if server
+  end
 
+  # Ensure we know the appservers port
+  if ENV['TDDIUM'] then
+    Capybara.server_port = find_available_port
+  else
+    Capybara.server_port = 9887
+  end
 
   # Capybara defaults to XPath selectors rather than Webrat's default of CSS3. In
   # order to ease the transition to Capybara we set the default here. If you'd

@@ -6,7 +6,7 @@ require Rails.root.join('lib', 'messagebus', 'mailer')
 Diaspora::Application.configure do
   config.action_mailer.default_url_options = {
     protocol: AppConfig.pod_uri.scheme,
-    host:     AppConfig.pod_uri.authority
+    host: "localhost:#{53891+ENV.fetch('TDDIUM_TID', 0).to_i}"
   }
   config.action_mailer.asset_host = AppConfig.pod_uri.to_s
   config.action_mailer.perform_deliveries = AppConfig.mail.enable?
@@ -36,7 +36,7 @@ Diaspora::Application.configure do
         enable_starttls_auto: false,
         openssl_verify_mode:  AppConfig.mail.smtp.openssl_verify_mode.get
       }
-      
+
       if AppConfig.mail.smtp.authentication != "none"
         smtp_settings.merge!({
           authentication:       AppConfig.mail.smtp.authentication.gsub('-', '_').to_sym,
@@ -45,7 +45,7 @@ Diaspora::Application.configure do
           enable_starttls_auto: AppConfig.mail.smtp.starttls_auto?
         })
       end
-      
+
       config.action_mailer.smtp_settings = smtp_settings
     else
       $stderr.puts "WARNING: Mailer turned on with unknown method #{AppConfig.mail.method}. Mail won't work."

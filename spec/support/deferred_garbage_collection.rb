@@ -35,7 +35,7 @@ class DeferredGarbageCollection
   end
 
   def self.unsupported_environment
-    ENV['TRAVIS'] # TODO: enable for ruby 1.9.3 or more RAM
+    ENV['TDDIUM'] # TODO: enable for ruby 1.9.3 or more RAM
   end
 
 end

@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'https://rubygems.solanolabs.com/content/repositories/rubygems-org'
 
 gem 'rails', '3.2.20'
 
