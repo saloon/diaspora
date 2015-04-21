@@ -1,11 +1,17 @@
 <%
-#require 'cucumber_in_groups'
+require 'cucumber_in_groups' unless ENV['TDDIUM']
 
 common = "--tags ~@wip --strict"
 
 lib = "features/step_definitions features/support"
 
+unless ENV['TDDIUM']
+  grouped = grouped_features("features/desktop", "features/mobile")
+else
+  grouped = "features/desktop features/mobile"
+end
+
 %>
 
 # 'normal' test runs
-default: <%= common %> <%= lib %> features/desktop features/mobile
+default: <%= common %> <%= lib %> <%= grouped %>
