@@ -6,14 +6,7 @@ rake:
 postgresql:
   version: 9.3
 hooks:
-  worker_setup:
-    - RAILS_ENV=test cp config/database.yml.example config/database.yml
-    - RAILS_ENV=test sed -i 's/*common/*postgres_travis/' config/database.yml
-    - RAILS_ENV=test bundle exec rake db:create
-    - RAILS_ENV=test bundle exec rake db:migrate
-    - RAILS_ENV=test bundle exec rake db:test:prepare
-    - RAILS_ENV=test bundle exec rake assets:precompile
-    - RAILS_ENV=test bundle exec rake tests:generate_fixtures
+  worker_setup: RAILS_ENV=test cp config/database.yml.example config/database.yml && RAILS_ENV=test sed -i 's/*common/*postgres_travis/' config/database.yml && RAILS_ENV=test bundle exec rake db:create && RAILS_ENV=test bundle exec rake db:migrate && RAILS_ENV=test bundle exec rake db:test:prepare && RAILS_ENV=test bundle exec rake assets:precompile && RAILS_ENV=test bundle exec rake tests:generate_fixtures
 test_pattern: 'none'
 tests:
   - bundle exec rake spec || true
