@@ -13,12 +13,9 @@ postgres: &postgres
   host: localhost
   encoding: unicode
   pool: 10
-  username: <%= ENV['PG_USER'] %>
+  username: <%= ENV['TDDIUM_DB_USER'] %>
   template: template1
-  password: <%= ENV['PG_PASSWORD'] %>
-  database: test<%= ENV['TEST_ENV_NUMBER'] %>
-  port: 5432
-  sslmode: disable
+  password: <%= ENV['TDDIUM_DB_PASSWORD'] %>
 
 # Comment the the mysql line and uncomment the postgres line
 # if you want to use postgres
