@@ -5,8 +5,8 @@
 namespace :db do
   desc "rebuild and prepare test db"
   task :rebuild  do
-    Rake::Task['db:drop'].invoke
-    Rake::Task['db:drop_integration'].invoke
+    #Rake::Task['db:drop'].invoke
+    #Rake::Task['db:drop_integration'].invoke
     Rake::Task['db:create'].invoke
     Rake::Task['db:migrate'].invoke
     puts "seeding users, this will take awhile"
@@ -29,7 +29,7 @@ namespace :db do
         puts (i == 0) ? "(go get yourself a coffee)" : "(time for another coffee)"
 
         # do drop, schema:load_if_ruby, structure:load_if_sql, seed
-        Rake::Task['db:drop'].invoke
+        #Rake::Task['db:drop'].invoke
         Rake::Task['db:setup'].invoke
 
         puts "db #{ActiveRecord::Base.connection.current_database} done"

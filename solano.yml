@@ -6,6 +6,10 @@ rake:
   rails_env: 'test'
 postgresql:
   version: 9.3
+  config:
+    pool: 10
+   config:
+     pool: 10
 hooks:
   worker_setup: RAILS_ENV=test bundle exec rake db:migrate && RAILS_ENV=test bundle exec rake assets:precompile && RAILS_ENV=test bundle exec rake tests:generate_fixtures
 test_pattern: 'none'
@@ -20,3 +24,4 @@ tests:
   - RAILS_ENV=test GROUP=6of8 bundle exec rake rake:cucumber || true
   - RAILS_ENV=test GROUP=7of8 bundle exec rake rake:cucumber || true
   - RAILS_ENV=test GROUP=8of8 bundle exec rake rake:cucumber || true
+timeout: 3000
