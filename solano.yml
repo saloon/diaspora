@@ -10,8 +10,8 @@ postgresql:
     pool: 10
 timeout: 3000
 hooks:
-  worker_setup: RAILS_ENV=test bundle exec rake db:migrate && RAILS_ENV=test bundle exec rake tests:generate_fixtures
-test_pattern: 'features/**.feature'
+  worker_setup: RAILS_ENV=test bundle exec rake db:migrate && (RAILS_ENV=test bundle exec rake assets:precompile || true) && (RAILS_ENV=test bundle exec rake tests:generate_fixtures || true)
+test_pattern: 'features/**/*.feature'
 tests:
   - RAILS_ENV=test bundle exec rake spec || true
   - RAILS_ENV=test bundle exec rake jasmine:ci || true
