@@ -11,15 +11,7 @@ postgresql:
 timeout: 3000
 hooks:
   worker_setup: RAILS_ENV=test bundle exec rake db:migrate && RAILS_ENV=test bundle exec rake assets:precompile && RAILS_ENV=test bundle exec rake tests:generate_fixtures
-test_pattern: 'none'
+test_pattern: 'features/**.feature'
 tests:
   - RAILS_ENV=test bundle exec rake spec || true
   - RAILS_ENV=test bundle exec rake jasmine:ci || true
-  - RAILS_ENV=test GROUP=1of8 bundle exec rake rake:cucumber || true
-  - RAILS_ENV=test GROUP=2of8 bundle exec rake rake:cucumber || true
-  - RAILS_ENV=test GROUP=3of8 bundle exec rake rake:cucumber || true
-  - RAILS_ENV=test GROUP=4of8 bundle exec rake rake:cucumber || true
-  - RAILS_ENV=test GROUP=5of8 bundle exec rake rake:cucumber || true
-  - RAILS_ENV=test GROUP=6of8 bundle exec rake rake:cucumber || true
-  - RAILS_ENV=test GROUP=7of8 bundle exec rake rake:cucumber || true
-  - RAILS_ENV=test GROUP=8of8 bundle exec rake rake:cucumber || true
